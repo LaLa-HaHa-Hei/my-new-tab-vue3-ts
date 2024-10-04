@@ -1,0 +1,30 @@
+{
+	"manifest_version": 3,
+	"name": "MyNewTab",
+	"version": "1.0.0",
+	"description": "丰富新标签页功能",
+	"chrome_url_overrides": {
+		"newtab": "newtab/index.html"
+	},
+	"incognito": "split",
+	"icons": {
+		"128": "icons/logo128.png",
+		"16": "icons/logo16.png",
+		"32": "icons/logo32.png",
+		"48": "icons/logo48.png"
+	},
+	"optional_permissions": [
+		"bookmarks",
+		"favicon"
+	],
+	"permissions": [
+		"storage"
+	],
+	"background": {
+		"service_worker": "background.js"
+	},
+	"host_permissions": [
+		"https://suggestion.baidu.com/*",
+		"https://api.bing.com/*"
+	]
+}

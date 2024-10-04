@@ -28,23 +28,7 @@ onBeforeMount(async () => {
             backgroundList: [
                 {
                     used: true,
-                    path: './images/backgrounds/到账锦鲤一对请查收.png'
-                },
-                {
-                    used: true,
-                    path: './images/backgrounds/月圆龙腾山河间.png'
-                },
-                {
-                    used: true,
                     path: './images/backgrounds/湖心小屋.png'
-                },
-                {
-                    used: true,
-                    path: './images/backgrounds/锦鲤护体.png'
-                },
-                {
-                    used: true,
-                    path: './images/backgrounds/青松山下与满月.png'
                 },
                 {
                     used: true,

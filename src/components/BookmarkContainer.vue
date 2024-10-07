@@ -167,15 +167,18 @@ onBeforeMount(async () => {
 .bookmark-container {
     height: 100%;
     overflow: auto;
-    padding-left: 20%;
-    padding-right: 20%;
-    margin-right: 5px;
+    padding-left: 15%;
+    padding-right: 15%;
     display: grid;
     /* grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
     grid-template-rows: repeat(auto-fill, minmax(90px, 1fr)); */
     grid-template-columns: repeat(auto-fill, 90px);
     grid-template-rows: repeat(auto-fill, 90px);
     gap: 0px;
+}
+
+.bookmark-container::-webkit-scrollbar {
+    display: none;
 }
 
 .add-bookmark-item {

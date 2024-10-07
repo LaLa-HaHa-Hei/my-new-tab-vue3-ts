@@ -14,47 +14,31 @@ defineOptions({
 const backgroundStore = useBackgroundStore()
 
 onBeforeMount(async () => {
-    // if (window.environment === 'extension') {
-    //     backgroundStore.backgroundSettings = (await chrome.storage.local.get('backgroundSettings')).backgroundSettings
-    // }
-    // else {
-    const backgroundSettings = localStorage.getItem('backgroundSettings')
-    if (backgroundSettings) {
+    if (window.environment === 'extension') {
+        const { backgroundSettings } = await chrome.storage.local.get('backgroundSettings')
         backgroundStore.backgroundSettings = JSON.parse(backgroundSettings)
     }
     else {
-        backgroundStore.backgroundSettings = {
-            randomBackground: true,
-            backgroundList: [
-                {
-                    used: true,
-                    path: './images/backgrounds/湖心小屋.png'
-                },
-                {
-                    used: true,
-                    path: './images/backgrounds/黛.png',
-                }
-            ],
-            currentBackgroundPath: '',
-            defaultBackgroundPath: './images/backgrounds/黛.png'
+        const backgroundSettings = localStorage.getItem('backgroundSettings')
+        if (backgroundSettings) {
+            backgroundStore.backgroundSettings = JSON.parse(backgroundSettings)
         }
-        localStorage.setItem('backgroundSettings', JSON.stringify(backgroundStore.backgroundSettings))
-        console.log('初始化背景数据')
+        else {
+            backgroundStore.backgroundSettings = backgroundStore.defaultBackgroundSettings
+            localStorage.setItem('backgroundSettings', JSON.stringify(backgroundStore.backgroundSettings))
+            console.log('默认背景数据')
+        }
     }
-    // }
 
     if (backgroundStore.backgroundSettings.randomBackground) {
-        console.log(backgroundStore.backgroundSettings.backgroundList)
         const usedList = backgroundStore.backgroundSettings.backgroundList.filter(item => item.used)
         if (usedList.length > 0) {
-            let randomIndex = Math.floor(Math.random() * backgroundStore.backgroundSettings.backgroundList.length)
-            while (!backgroundStore.backgroundSettings.backgroundList[randomIndex].used) {
-                randomIndex = Math.floor(Math.random() * backgroundStore.backgroundSettings.backgroundList.length)
-            }
-            backgroundStore.backgroundSettings.currentBackgroundPath = backgroundStore.backgroundSettings.backgroundList[randomIndex].path
+            const randomIndex = Math.floor(Math.random() * usedList.length)
+            backgroundStore.backgroundSettings.currentBackgroundPath = usedList[randomIndex].path
         }
         else {
             alert('没有可用的背景图片')
+            backgroundStore.backgroundSettings.currentBackgroundPath = backgroundStore.defaultBackgroundSettings.defaultBackgroundPath
         }
     }
     else {

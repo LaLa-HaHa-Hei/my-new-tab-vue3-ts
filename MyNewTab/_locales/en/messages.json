@@ -1,0 +1,10 @@
+{
+    "extensionName": {
+        "message": "My New Tab",
+        "description": "Name of the extension."
+    },
+    "extensionDescription": {
+        "message": "Enhanced new tab functionality that can display multiple search engines simultaneously, gradually improving.",
+        "description": "Description of the extension."
+    }
+}

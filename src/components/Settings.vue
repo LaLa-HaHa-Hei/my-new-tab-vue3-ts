@@ -156,17 +156,16 @@ function howToUseBackground() {
 // 保存并隐藏模态框
 function saveAndHideModal() {
     showModal.value = false
-    // if (window.environment === 'extension') {
-    //     chrome.storage.local.set({ bookmarkSettings: bookmarkContainerStore.bookmarkSettings })
-    //     chrome.storage.local.set({ searchEngineSettings: searchEngineContainerStore.searchEngineSettings })
-    //     chrome.storage.local.set({ backgroundSettings: backgroundStore.backgroundSettings })
-    // }
-    // else {
-    localStorage.setItem('bookmarkSettings', JSON.stringify(bookmarkContainerStore.bookmarkSettings))
-    localStorage.setItem('searchEngineSettings', JSON.stringify(searchEngineContainerStore.searchEngineSettings))
-    localStorage.setItem('backgroundSettings', JSON.stringify(backgroundStore.backgroundSettings))
-    // }
-    // 背景设置
+    if (window.environment === 'extension') {
+        chrome.storage.local.set({ 'bookmarkSettings': JSON.stringify(bookmarkContainerStore.bookmarkSettings) })
+        chrome.storage.local.set({ 'searchEngineSettings': JSON.stringify(searchEngineContainerStore.searchEngineSettings) })
+        chrome.storage.local.set({ 'backgroundSettings': JSON.stringify(backgroundStore.backgroundSettings) })
+    }
+    else {
+        localStorage.setItem('bookmarkSettings', JSON.stringify(bookmarkContainerStore.bookmarkSettings))
+        localStorage.setItem('searchEngineSettings', JSON.stringify(searchEngineContainerStore.searchEngineSettings))
+        localStorage.setItem('backgroundSettings', JSON.stringify(backgroundStore.backgroundSettings))
+    }
 }
 </script>
 

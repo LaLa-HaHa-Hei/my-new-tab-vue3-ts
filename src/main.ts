@@ -3,8 +3,7 @@ declare global {
         environment: string
     }
 }
-// web或者extension环境
-// window.environment = 'extension'
+// 判断web或者extension环境
 if (typeof window !== 'undefined' && window.chrome && window.chrome.runtime) {
     console.log('扩展环境');
     window.environment = 'extension'
@@ -13,19 +12,23 @@ if (typeof window !== 'undefined' && window.chrome && window.chrome.runtime) {
     window.environment = 'web'
 }
 
-// chrome.storage.local 不清楚为什么会时不时将数组转为对象！导致调用数组方法报错！！！！！
-// 注释掉了所有chrome.storage.local的调用，暂时使用localStorage代替
+// chrome.storage 会时不时将数组转为对象！导致调用数组方法报错！！！！！
+// 所以使用chrome.storage时也用json.stringify和json.parse转一下，保证数据类型一致
 
 import { createApp } from 'vue'
 import App from './App.vue'
 import { createPinia } from 'pinia'
+// import i18n from './lang'
 
 const app = createApp(App)
+
+// app.use(i18n)
 app.use(createPinia())
 
-app.config.errorHandler = (err: any, vm, info) => {
-    alert(`发生不可预知的错误！\n请重新安装该扩展并联系作者以帮助他改进（Q群:726549790）\n错误信息： ${err.message}`)
-    console.error(err, vm, info)
-}
+// 全局错误处理, 正式发布时清除下面注释
+// app.config.errorHandler = (err: any, vm, info) => {
+//     alert(`unexpeced error occurred! Try toreinstall the extension \n发生意料之外的错误！请重新安装该扩展并联系作者以帮助他改进（Q群:767818556）\n错误信息： ${err.message}`)
+//     console.error(err, vm, info)
+// }
 
 app.mount('#app')

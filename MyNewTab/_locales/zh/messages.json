@@ -1,0 +1,10 @@
+{
+    "extensionName": {
+        "message": "我的新标签页",
+        "description": "扩展名"
+    },
+    "extensionDescription": {
+        "message": "增强新标签页功能，可同时显示多个搜索引擎，正在逐步完善",
+        "description": "扩展描述"
+    }
+}

@@ -11,7 +11,7 @@ export default defineConfig({
     vue(),
   ],
   build: {
-    outDir: 'newtab',
+    outDir: './MyNewTab/newtab',
     rollupOptions: {
       input: {
         main: resolve(__dirname, 'index.html'),

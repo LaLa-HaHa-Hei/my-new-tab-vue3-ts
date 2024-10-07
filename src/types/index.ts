@@ -14,9 +14,9 @@ export interface BookmarkInterface {
     id: string;
     name: string;
     url: string;
-    backgroundIcon?: string;
-    backgroundColor?: string;
-    backgroundText?: string;
+    backgroundIcon: string;
+    backgroundColor: string;
+    backgroundText: string;
 }
 
 export interface bookmarkSettingsInterface {

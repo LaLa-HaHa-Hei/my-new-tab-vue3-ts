@@ -94,7 +94,7 @@ watch(urlTemp, debounce((newVal) => {
     }
     catch (e) {
     }
-}, 500))
+}, 400))
 // 猜测网站图标，如果不是ico格式，则改为png格式
 function imgError(event: any) {
     if (backgroundIconTemp.value.endsWith('ico')) {
@@ -131,7 +131,8 @@ function addBookmark() {
     }
     bookmarkContainerStore.bookmarkSettings.bookmarkList.push(newBookmark)
     if (window.environment === 'extension') {
-        chrome.storage.local.set({ bookmarkSettings: bookmarkContainerStore.bookmarkSettings })
+        chrome.storage.local.set({ 'bookmarkSettings': JSON.stringify(bookmarkContainerStore.bookmarkSettings) })
+        console.log(bookmarkContainerStore.bookmarkSettings.bookmarkList)
     }
     else {
         localStorage.setItem('bookmarkSettings', JSON.stringify(bookmarkContainerStore.bookmarkSettings))
@@ -144,41 +145,21 @@ function addBookmark() {
 }
 
 onBeforeMount(async () => {
-    // if (window.environment === 'extension') {
-    //     bookmarkContainerStore.bookmarkSettings = (await chrome.storage.local.get('bookmarkSettings')).bookmarkSettings
-    // }
-    // else {
-    const bookmarkSettings = localStorage.getItem('bookmarkSettings')
-    if (bookmarkSettings) {
+    if (window.environment === 'extension') {
+        const { bookmarkSettings } = await chrome.storage.local.get('bookmarkSettings')
         bookmarkContainerStore.bookmarkSettings = JSON.parse(bookmarkSettings)
     }
     else {
-        bookmarkContainerStore.bookmarkSettings = {
-            openInNewTab: true, // 是否在新标签页中打开
-            bookmarkList: [
-                {
-                    id: '1725892663580',
-                    name: '百度翻译',
-                    url: 'https://fanyi.baidu.com/mtpe-individual/multimodal',
-                    backgroundIcon: './images/bookmarks/百度翻译.ico',
-                    backgroundColor: '',
-                    backgroundText: ''
-                },
-                {
-                    id: '1725892663582',
-                    name: 'DeepSeek',
-                    url: 'https://chat.deepseek.com/coder',
-                    backgroundIcon: './images/bookmarks/DeepSeek.svg',
-                    backgroundColor: '',
-                    backgroundText: ''
-                },
-            ]
+        const bookmarkSettings = localStorage.getItem('bookmarkSettings')
+        if (bookmarkSettings) {
+            bookmarkContainerStore.bookmarkSettings = JSON.parse(bookmarkSettings)
         }
-        localStorage.setItem('bookmarkSettings', JSON.stringify(bookmarkContainerStore.bookmarkSettings))
-        console.log('初始化书签数据')
+        else {
+            bookmarkContainerStore.bookmarkSettings = bookmarkContainerStore.defaultBookmarkSettings
+            localStorage.setItem('bookmarkSettings', JSON.stringify(bookmarkContainerStore.bookmarkSettings))
+            console.log('默认书签数据')
+        }
     }
-    // }
-    console.log('读取书签数据成功')
 })
 </script>
 

@@ -37,12 +37,12 @@ function deleteBookmark() {
     if (userChoice) {
         const index = bookmarkContainerStore.bookmarkSettings.bookmarkList.findIndex(item => item.id === props.bookmark.id)
         bookmarkContainerStore.bookmarkSettings.bookmarkList.splice(index, 1)
-        // if (window.environment === 'extension') {
-        //     chrome.storage.local.set({ bookmarkSettings: bookmarkContainerStore.bookmarkSettings })
-        // }
-        // else {
-        localStorage.setItem('bookmarkSettings', JSON.stringify(bookmarkContainerStore.bookmarkSettings))
-        // }
+        if (window.environment === 'extension') {
+            chrome.storage.local.set({ 'bookmarkSettings': JSON.stringify(bookmarkContainerStore.bookmarkSettings) })
+        }
+        else {
+            localStorage.setItem('bookmarkSettings', JSON.stringify(bookmarkContainerStore.bookmarkSettings))
+        }
     }
 }
 

@@ -10,6 +10,7 @@ defineOptions({
     name: 'Clock'
 })
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+const refreshInterval = 1000 * 10 // 10秒刷新一次
 
 let currentDate = ref<Date>(new Date())
 // 计算格式化的时间
@@ -32,7 +33,7 @@ function updateCurrentDate() {
 let updateCurrentDateIntervel: ReturnType<typeof setInterval>
 onMounted(() => {
     updateCurrentDate()
-    updateCurrentDateIntervel = setInterval(updateCurrentDate, 1000 * 10);
+    updateCurrentDateIntervel = setInterval(updateCurrentDate, refreshInterval);
 })
 onUnmounted(() => {
     clearInterval(updateCurrentDateIntervel)

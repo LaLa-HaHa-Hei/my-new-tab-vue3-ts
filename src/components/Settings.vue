@@ -91,10 +91,15 @@
                         </div>
                         <!-- 页面四 -->
                         <div v-show="pageIndex === 3" class="page">
-                            <header>其他</header>
+                            <header>
+                                <p>其他</p>
+                            </header>
                             <main>
-                                <button @click="exportSettings">导出到剪切板</button>&ensp;&ensp;
-                                <button @click="importSettings">从剪切板导入</button>
+                                <button @click="exportSettings">配置导出到剪切板</button>&ensp;&ensp;
+                                <button @click="importSettings">从剪切板导入配置</button>
+                                <br />
+                                <p>欢迎进群讨论！</p>
+                                <img src="/images/qqGroup.jpg" style="width: 300px;" />
                             </main>
                             <footer></footer>
                         </div>
@@ -265,7 +270,7 @@ ul {
     left: 50%;
     transform: translateX(-50%);
     width: 70%;
-    height: 60%;
+    height: 70%;
     background-color: white;
     border-radius: 20px;
     display: flex;

@@ -18,7 +18,9 @@
 		"favicon"
 	],
 	"permissions": [
-		"storage"
+		"storage",
+		"clipboardWrite",
+		"clipboardRead"
 	],
 	"background": {
 		"service_worker": "background.js"

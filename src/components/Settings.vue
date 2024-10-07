@@ -14,6 +14,7 @@
                             <li @click="changePage(0)" :class="pageIndex === 0 ? 'active' : ''">搜索</li>
                             <li @click="changePage(1)" :class="pageIndex === 1 ? 'active' : ''">书签</li>
                             <li @click="changePage(2)" :class="pageIndex === 2 ? 'active' : ''">背景</li>
+                            <li @click="changePage(3)" :class="pageIndex === 3 ? 'active' : ''">其他</li>
                         </ul>
                     </nav>
                     <div class="page-content">
@@ -85,6 +86,15 @@
                                             style="flex: 1;" />
                                     </label>
                                 </form>
+                            </main>
+                            <footer></footer>
+                        </div>
+                        <!-- 页面四 -->
+                        <div v-show="pageIndex === 3" class="page">
+                            <header>其他</header>
+                            <main>
+                                <button @click="exportSettings">导出到剪切板</button>&ensp;&ensp;
+                                <button @click="importSettings">从剪切板导入</button>
                             </main>
                             <footer></footer>
                         </div>
@@ -165,6 +175,43 @@ function saveAndHideModal() {
         localStorage.setItem('bookmarkSettings', JSON.stringify(bookmarkContainerStore.bookmarkSettings))
         localStorage.setItem('searchEngineSettings', JSON.stringify(searchEngineContainerStore.searchEngineSettings))
         localStorage.setItem('backgroundSettings', JSON.stringify(backgroundStore.backgroundSettings))
+    }
+}
+
+// 导出设置
+function exportSettings() {
+    const settings = {
+        bookmarkSettings: bookmarkContainerStore.bookmarkSettings,
+        searchEngineSettings: searchEngineContainerStore.searchEngineSettings,
+        backgroundSettings: backgroundStore.backgroundSettings
+    }
+    const settingsStr = JSON.stringify(settings)
+    navigator.clipboard.writeText(settingsStr)
+    alert('设置已导出到剪切板')
+}
+
+// 导入设置
+async function importSettings() {
+    try {
+        const settingsStr = await navigator.clipboard.readText()
+        const settingsObj = JSON.parse(settingsStr)
+        bookmarkContainerStore.bookmarkSettings = settingsObj.bookmarkSettings
+        searchEngineContainerStore.searchEngineSettings = settingsObj.searchEngineSettings
+        backgroundStore.backgroundSettings = settingsObj.backgroundSettings
+        if (window.environment === 'extension') {
+            chrome.storage.local.set({ 'bookmarkSettings': JSON.stringify(bookmarkContainerStore.bookmarkSettings) })
+            chrome.storage.local.set({ 'searchEngineSettings': JSON.stringify(searchEngineContainerStore.searchEngineSettings) })
+            chrome.storage.local.set({ 'backgroundSettings': JSON.stringify(backgroundStore.backgroundSettings) })
+        }
+        else {
+            localStorage.setItem('bookmarkSettings', JSON.stringify(bookmarkContainerStore.bookmarkSettings))
+            localStorage.setItem('searchEngineSettings', JSON.stringify(searchEngineContainerStore.searchEngineSettings))
+            localStorage.setItem('backgroundSettings', JSON.stringify(backgroundStore.backgroundSettings))
+        }
+        alert('设置已导入')
+    }
+    catch (e: any) {
+        alert(`导入失败${e.message}`)
     }
 }
 </script>

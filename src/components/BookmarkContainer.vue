@@ -165,12 +165,16 @@ onBeforeMount(async () => {
 
 <style scoped>
 .bookmark-container {
-    flex: 1;
-    margin-left: 20%;
-    margin-right: 20%;
+    height: 100%;
+    overflow: auto;
+    padding-left: 20%;
+    padding-right: 20%;
+    margin-right: 5px;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
-    grid-template-rows: repeat(auto-fill, minmax(90px, 1fr));
+    /* grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    grid-template-rows: repeat(auto-fill, minmax(90px, 1fr)); */
+    grid-template-columns: repeat(auto-fill, 90px);
+    grid-template-rows: repeat(auto-fill, 90px);
     gap: 0px;
 }
 

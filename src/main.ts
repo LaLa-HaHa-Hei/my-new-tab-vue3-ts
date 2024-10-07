@@ -18,11 +18,11 @@ if (typeof window !== 'undefined' && window.chrome && window.chrome.runtime) {
 import { createApp } from 'vue'
 import App from './App.vue'
 import { createPinia } from 'pinia'
-// import i18n from './lang'
+import i18n from './lang'
 
 const app = createApp(App)
 
-// app.use(i18n)
+app.use(i18n)
 app.use(createPinia())
 
 // 全局错误处理, 正式发布时清除下面注释

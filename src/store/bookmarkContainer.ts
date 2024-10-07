@@ -27,22 +27,22 @@ export const useBookmarkContainerStore = defineStore('bookmarkContainer', {
                         backgroundColor: '',
                         backgroundText: ''
                     },
-                    {
-                        id: '1725892663583',
-                        name: '词源',
-                        url: 'https://www.dictool.com/ciyuan/',
-                        backgroundIcon: './images/bookmarks/dictool.ico',
-                        backgroundColor: '',
-                        backgroundText: ''
-                    },
-                    {
-                        id: '1725892663584',
-                        name: '词跟',
-                        url: 'https://www.dictool.com/root/',
-                        backgroundIcon: './images/bookmarks/dictool.ico',
-                        backgroundColor: '',
-                        backgroundText: ''
-                    }
+                    // {
+                    //     id: '1725892663583',
+                    //     name: '词源',
+                    //     url: 'https://www.dictool.com/ciyuan/',
+                    //     backgroundIcon: './images/bookmarks/dictool.ico',
+                    //     backgroundColor: '',
+                    //     backgroundText: ''
+                    // },
+                    // {
+                    //     id: '1725892663584',
+                    //     name: '词跟',
+                    //     url: 'https://www.dictool.com/root/',
+                    //     backgroundIcon: './images/bookmarks/dictool.ico',
+                    //     backgroundColor: '',
+                    //     backgroundText: ''
+                    // }
                 ]
             }
         }

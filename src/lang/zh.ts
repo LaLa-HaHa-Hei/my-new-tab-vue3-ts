@@ -1,6 +1,3 @@
-import Background from "@/components/Background.vue";
-import { add } from "lodash";
-
 export default {
     settings: {
         nav: {
@@ -45,7 +42,7 @@ export default {
         addBookmark: {
             title: "添加书签",
             name: "网站名称",
-            url: "网址",
+            url: "网站链接",
             icon: "背景图",
             inputPlaceholder: "网址或base64图片",
             readMe: "用前必看",

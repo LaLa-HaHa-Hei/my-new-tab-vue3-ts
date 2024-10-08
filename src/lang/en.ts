@@ -1,5 +1,3 @@
-import { random } from "lodash";
-
 export default {
     settings: {
         nav: {
@@ -44,7 +42,7 @@ export default {
         addBookmark: {
             title: "add bookmark",
             name: "website name",
-            url: "url",
+            url: "website url ",
             icon: "icon",
             inputPlaceholder: "URL or base64 image",
             readMe: "read me",

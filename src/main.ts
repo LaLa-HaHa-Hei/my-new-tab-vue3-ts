@@ -18,12 +18,23 @@ if (typeof window !== 'undefined' && window.chrome && window.chrome.runtime) {
 import { createApp } from 'vue'
 import App from './App.vue'
 import { createPinia } from 'pinia'
-// import i18n from './lang'
+import i18n from './lang'
+
 
 const app = createApp(App)
 
-// app.use(i18n)
+if (window.environment === 'extension') {
+    chrome.storage.local.get('lang', (result) => {
+        i18n.global.locale.value = (result.lang === 'en' ? 'en' : 'zh')
+    })
+}
+else {
+    const lang = localStorage.getItem('lang')
+    i18n.global.locale.value = (lang === 'en' ? 'en' : 'zh')
+}
+
 app.use(createPinia())
+app.use(i18n)
 
 // 全局错误处理, 正式发布时清除下面注释
 // app.config.errorHandler = (err: any, vm, info) => {

@@ -23,6 +23,9 @@ const props = defineProps<{
 }>()
 import { useBookmarkContainerStore } from '@/store/bookmarkContainer'
 
+import { useI18n } from 'vue-i18n';
+const { t } = useI18n();
+
 defineOptions({
     name: 'BookmarkItem'
 })
@@ -33,7 +36,7 @@ function openUrl() {
 }
 
 function deleteBookmark() {
-    const userChoice = confirm('确认要删除？');
+    const userChoice = confirm(t('bookmark.deleteBookmark.confirm'))
     if (userChoice) {
         const index = bookmarkContainerStore.bookmarkSettings.bookmarkList.findIndex(item => item.id === props.bookmark.id)
         bookmarkContainerStore.bookmarkSettings.bookmarkList.splice(index, 1)

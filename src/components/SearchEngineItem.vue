@@ -1,8 +1,9 @@
 <template>
     <div v-if="props.searchEngine.used" class="search-engine-item">
-        <div class="search-engine-input-box" :class="inputStyleClass">
+        <div class="search-engine-input-box" :class="inputBoxStyleClass">
             <input type="text" ref="inputField" :placeholder="props.searchEngine.name" @keydown.enter="search"
-                v-model="searchText" @mouseenter="handleMouseEnterInput" @focusout="handleFocusOutInput">
+                v-model="searchText" @mouseenter="handleMouseEnterInput" @focusout="handleFocusOutInput"
+                @focusin="handleFocusInInput">
             <img :src="props.searchEngine.icon" alt="搜" @click="search">
         </div>
         <div v-show="isSuggestionBoxShow" class="search-engine-suggestion-box">
@@ -31,7 +32,7 @@ const props = defineProps<{
 
 const searchText = ref<string>()
 const inputField = ref()
-const inputStyleClass = ref<string>('search-engine-input-box-hide-suggestion')
+const inputBoxStyleClass = ref<string>('search-engine-input-box-initial-state')
 const isSuggestionBoxShow = ref<boolean>(false)
 const suggestionList = ref<string[]>([])
 const activeLiIndex = ref<number>()
@@ -45,12 +46,12 @@ function search() {
 
 function ShowSuggestions() {
     isSuggestionBoxShow.value = true
-    inputStyleClass.value = 'search-engine-input-box-show-suggestion'
+    inputBoxStyleClass.value = 'search-engine-input-box-show-suggestion'
 }
 
 function HideSuggestions() {
     isSuggestionBoxShow.value = false
-    inputStyleClass.value = 'search-engine-input-box-hide-suggestion'
+    inputBoxStyleClass.value = 'search-engine-input-box-initial-state'
 }
 
 if (window.environment === 'extension') {
@@ -81,6 +82,10 @@ async function handleMouseEnterInput() {
         }
     }
 }
+
+function handleFocusInInput() {
+    inputBoxStyleClass.value = 'search-engine-input-box-focus-in'
+}
 // 输入框失去焦点时，隐藏建议列表
 function handleFocusOutInput() {
     HideSuggestions()
@@ -104,9 +109,14 @@ function handleMouseDownLI(index: number) {
     display: flex;
 }
 
-.search-engine-input-box-hide-suggestion {
+.search-engine-input-box-initial-state {
     border-radius: 23px;
     background-color: rgba(255, 255, 255, 0.5);
+}
+
+.search-engine-input-box-focus-in {
+    border-radius: 23px;
+    background-color: white;
 }
 
 .search-engine-input-box-show-suggestion {

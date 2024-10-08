@@ -1,37 +1,53 @@
 <template>
     <Teleport to="body">
-        <button class="settings-button" @click="showModal = true; pageIndex = 0" type="button">
-            <img src="/images/setting.svg" alt="设置" />
-        </button>
+        <div class="settings-bar">
+            <label class="language-selector">
+                <img src="/images/language.svg" alt="language" />
+                <select v-model="$i18n.locale">
+                    <option v-for="locale in $i18n.availableLocales" :key="`locale-${locale}`" :value="locale">{{
+                        locale }}
+                    </option>
+                </select>
+            </label>
+            &ensp;&ensp;
+            <button class="settings-button" @click="showModal = true; pageIndex = 0" type="button">
+                <img src="/images/setting.svg" alt="设置" />
+            </button>
+        </div>
     </Teleport>
     <Teleport to="body">
         <div class="modal" v-show="showModal">
             <div class="modal-overlay" @click="saveAndHideModal">
                 <div class="modal-content" @click.stop>
                     <nav>
-                        <p style="margin: 20px 20px 18px 20px;font-weight: 600;">设置中心</p>
+                        <p style="margin: 20px 20px 18px 20px;font-weight: 600;">{{ $t('settings.nav.title') }}</p>
                         <ul>
-                            <li @click="changePage(0)" :class="pageIndex === 0 ? 'active' : ''">搜索</li>
-                            <li @click="changePage(1)" :class="pageIndex === 1 ? 'active' : ''">书签</li>
-                            <li @click="changePage(2)" :class="pageIndex === 2 ? 'active' : ''">背景</li>
-                            <li @click="changePage(3)" :class="pageIndex === 3 ? 'active' : ''">其他</li>
+                            <li @click="changePage(0)" :class="pageIndex === 0 ? 'active' : ''">
+                                {{ $t('settings.nav.searchEngine') }}</li>
+                            <li @click="changePage(1)" :class="pageIndex === 1 ? 'active' : ''">{{
+                                $t('settings.nav.bookmark') }}</li>
+                            <li @click="changePage(2)" :class="pageIndex === 2 ? 'active' : ''">{{
+                                $t('settings.nav.background') }}</li>
+                            <li @click="changePage(3)" :class="pageIndex === 3 ? 'active' : ''">{{
+                                $t('settings.nav.other') }}</li>
                         </ul>
                     </nav>
                     <div class="page-content">
                         <!-- 页面一 -->
                         <div v-show="pageIndex === 0" class="page">
                             <header>
-                                <p>搜索引擎</p>
+                                <p>{{ $t('settings.searchEnginePage.title') }}</p>
                             </header>
                             <main>
                                 <form ref="searchEngineForm">
-                                    <label>在新标签页中搜索<input type="checkbox"
+                                    <label>{{ $t('settings.searchEnginePage.openInNewTab') }}<input type="checkbox"
                                             v-model="searchEngineContainerStore.searchEngineSettings.openInNewTab" /></label>
                                     <br />
-                                    <label>每行搜索引擎个数&ensp;<input type="number" min="1" max="4" style="width: 30px;"
+                                    <label>{{ $t('settings.searchEnginePage.gridColumnCount') }}&ensp;<input
+                                            type="number" min="1" max="4" style="width: 30px;"
                                             v-model="searchEngineContainerStore.searchEngineSettings.gridColumnCount" /></label>
                                     <br />
-                                    <p>拖动搜索引擎排序</p>
+                                    <p>{{ $t('settings.searchEnginePage.dragToSort') }}</p>
                                     <ul class="search-engine-list">
                                         <li v-for="(engine, index) in searchEngineContainerStore?.searchEngineSettings.searchEngineList"
                                             :key="engine.id" draggable="true" @dragstart="dragStart(index)"
@@ -50,7 +66,7 @@
                             </header>
                             <main>
                                 <form ref="bookmarkForm">
-                                    <label>在新标签页中打开链接<input type="checkbox"
+                                    <label>{{ $t('settings.bookmarkPage.openInNewTab') }}<input type="checkbox"
                                             v-model="bookmarkContainerStore.bookmarkSettings.openInNewTab"></label>
                                 </form>
                             </main>
@@ -60,17 +76,20 @@
                         <!-- 页面三 -->
                         <div v-show="pageIndex === 2" class="page">
                             <header>
-                                <p>背景</p>
+                                <p>{{ $t('settings.backgroundPage.title') }}</p>
                             </header>
                             <main>
                                 <form ref="backgroundForm">
-                                    <label>每次打开页面随机背景<input type="checkbox"
+                                    <label>{{ $t('settings.backgroundPage.randomBackground') }}<input type="checkbox"
                                             v-model="backgroundStore.backgroundSettings.randomBackground"></label>
                                     <br />
-                                    <p>背景图片列表&ensp;
-                                        <button @click.prevent="addBackground">添加</button>&ensp;
-                                        <button @click.prevent="removeBackground">删除</button>&ensp;
-                                        <button @click.prevent="howToUseBackground" style="color: red;">用前必看</button>
+                                    <p>{{ $t('settings.backgroundPage.backgroundImageList') }}&ensp;
+                                        <button @click.prevent="addBackground">{{ $t('settings.backgroundPage.add')
+                                            }}</button>&ensp;
+                                        <button @click.prevent="removeBackground">{{
+                                            $t('settings.backgroundPage.remove') }}</button>&ensp;
+                                        <button @click.prevent="howToUseBackground" style="color: red;">{{
+                                            $t('settings.backgroundPage.readMe') }}</button>
                                     </p>
                                     <ul>
                                         <li
@@ -80,7 +99,7 @@
                                         </li>
                                     </ul>
                                     <label style="width: 100%; display: flex;">
-                                        不随机时的背景图片路径或网址
+                                        {{ $t('settings.backgroundPage.defaultBackground') }}
                                         <input type="text"
                                             v-model="backgroundStore.backgroundSettings.defaultBackgroundPath"
                                             style="flex: 1;" />
@@ -92,13 +111,14 @@
                         <!-- 页面四 -->
                         <div v-show="pageIndex === 3" class="page">
                             <header>
-                                <p>其他</p>
+                                <p>{{ $t('settings.otherPage.title') }}</p>
                             </header>
                             <main>
-                                <button @click="exportSettings">配置导出到剪切板</button>&ensp;&ensp;
-                                <button @click="importSettings">从剪切板导入配置</button>
+                                <button @click="exportSettings">{{ $t('settings.otherPage.export')
+                                    }}</button>&ensp;&ensp;
+                                <button @click="importSettings">{{ $t('settings.otherPage.import') }}</button>
                                 <br />
-                                <p>欢迎进群讨论！</p>
+                                <p>{{ $t('settings.otherPage.welcome') }}</p>
                                 <img src="/images/qqGroup.jpg" style="width: 300px;" />
                             </main>
                             <footer></footer>
@@ -111,10 +131,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch, onBeforeMount } from 'vue'
 import { useBookmarkContainerStore } from '@/store/bookmarkContainer'
 import { useSearchEngineContainerStore } from '@/store/searchEngineContainer'
 import { useBackgroundStore } from '@/store/background'
+
+import { useI18n } from 'vue-i18n';
+const { t, locale } = useI18n();
 
 defineOptions({
     name: 'Settings'
@@ -127,6 +150,14 @@ const backgroundStore = useBackgroundStore()
 const showModal = ref<boolean>(false)
 const pageIndex = ref<number>(0)
 
+watch(locale, val => {
+    if (window.environment === 'extension') {
+        chrome.storage.local.set({ 'lang': val })
+    }
+    else {
+        localStorage.setItem('lang', val)
+    }
+})
 // 搜索引擎拖动排序
 const draggingIndex = ref<number>(-1)
 function changePage(index: number) {
@@ -156,7 +187,7 @@ function addBackground() {
         })
     }
 }
-
+// 删除背景图片
 function removeBackground() {
     const index = prompt('请输入要删除的背景图片前面的序号')
     if (index) {
@@ -164,9 +195,9 @@ function removeBackground() {
         backgroundStore.backgroundSettings.backgroundList.splice(indexNum, 1)
     }
 }
-
+// 背景图片使用说明
 function howToUseBackground() {
-    alert('由于浏览器安全限制，无法直接访问本地图片路径，所以添加图片时只能输入网址。\n如果您对电脑的使用比较熟悉，可以将图片放入本扩展目录对应版本文件夹的"newtab\\images\\background"中，然后就可以添加本地图片了。\nedge扩展目录一般在C:\\Users\\用户名\\AppData\\Local\\Microsoft\\Edge\\User Data\\Default\\Extensions\nchrome一般在C:\\Users\\mjcgc\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Extensions\n然后上网查询如何判断哪个是本扩展的目录即可')
+    alert(t('settings.backgroundPage.usage'))
 }
 // 保存并隐藏模态框
 function saveAndHideModal() {
@@ -191,8 +222,13 @@ function exportSettings() {
         backgroundSettings: backgroundStore.backgroundSettings
     }
     const settingsStr = JSON.stringify(settings)
-    navigator.clipboard.writeText(settingsStr)
-    alert('设置已导出到剪切板')
+    try {
+        navigator.clipboard.writeText(settingsStr)
+        alert(t('settings.otherPage.exportSuccess'))
+    }
+    catch (e: any) {
+        alert(`${t('settings.otherPage.exportFail')}\n${e.message}`)
+    }
 }
 
 // 导入设置
@@ -213,12 +249,16 @@ async function importSettings() {
             localStorage.setItem('searchEngineSettings', JSON.stringify(searchEngineContainerStore.searchEngineSettings))
             localStorage.setItem('backgroundSettings', JSON.stringify(backgroundStore.backgroundSettings))
         }
-        alert('设置已导入')
+        alert(t('settings.otherPage.importSuccess'))
     }
     catch (e: any) {
-        alert(`导入失败${e.message}`)
+        alert(`${t('settings.otherPage.importFail')}\n${e.message}`)
     }
 }
+
+// onBeforeMount(async () => {
+// })
+
 </script>
 
 <style scoped>
@@ -226,10 +266,26 @@ ul {
     list-style: none;
 }
 
-.settings-button {
+.settings-bar {
     position: absolute;
-    top: 20px;
+    top: 10px;
     right: 20px;
+    display: flex;
+    flex-direction: row;
+}
+
+.language-selector {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.language-selector img {
+    width: 25px;
+    height: 25px;
+}
+
+.settings-button {
     width: 35px;
     height: 35px;
     background-color: transparent;
@@ -291,7 +347,7 @@ ul {
 
 
 .modal-content nav ul>li {
-    padding: 12px 0px 12px 20px;
+    padding: 12px 12px 12px 20px;
     cursor: pointer;
 }
 

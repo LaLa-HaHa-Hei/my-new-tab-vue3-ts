@@ -16,14 +16,14 @@
 </template>
 
 <script setup lang="ts">
-import { type BookmarkInterface } from '@/types';
+import { type BookmarkInterface } from '@/types'
 const props = defineProps<{
     openInNewTab: boolean;
     bookmark: BookmarkInterface;
 }>()
 import { useBookmarkContainerStore } from '@/store/bookmarkContainer'
 
-import { useI18n } from 'vue-i18n';
+import { useI18n } from 'vue-i18n'
 const { t } = useI18n();
 
 defineOptions({
@@ -32,7 +32,7 @@ defineOptions({
 
 const bookmarkContainerStore = useBookmarkContainerStore()
 function openUrl() {
-    window.open(props.bookmark.url, props.openInNewTab ? '_blank' : '_self');
+    window.open(props.bookmark.url, props.openInNewTab ? '_blank' : '_self')
 }
 
 function deleteBookmark() {

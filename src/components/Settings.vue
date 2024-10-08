@@ -136,8 +136,8 @@ import { useBookmarkContainerStore } from '@/store/bookmarkContainer'
 import { useSearchEngineContainerStore } from '@/store/searchEngineContainer'
 import { useBackgroundStore } from '@/store/background'
 
-import { useI18n } from 'vue-i18n';
-const { t, locale } = useI18n();
+import { useI18n } from 'vue-i18n'
+const { t, locale } = useI18n()
 
 defineOptions({
     name: 'Settings'

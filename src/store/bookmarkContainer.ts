@@ -19,14 +19,14 @@ export const useBookmarkContainerStore = defineStore('bookmarkContainer', {
                         backgroundColor: '',
                         backgroundText: ''
                     },
-                    {
-                        id: '1725892663582',
-                        name: 'DeepSeek',
-                        url: 'https://chat.deepseek.com/coder',
-                        backgroundIcon: './images/bookmarks/DeepSeek.svg',
-                        backgroundColor: '',
-                        backgroundText: ''
-                    },
+                    // {
+                    //     id: '1725892663582',
+                    //     name: 'DeepSeek',
+                    //     url: 'https://chat.deepseek.com/coder',
+                    //     backgroundIcon: './images/bookmarks/DeepSeek.svg',
+                    //     backgroundColor: '',
+                    //     backgroundText: ''
+                    // },
                     // {
                     //     id: '1725892663583',
                     //     name: '词源',

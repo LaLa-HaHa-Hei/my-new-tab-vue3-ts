@@ -10,6 +10,9 @@ defineOptions({
     name: 'Clock'
 })
 import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { useI18n } from 'vue-i18n'
+const { locale } = useI18n()
+
 const refreshInterval = 1000 * 10 // 10秒刷新一次
 
 let currentDate = ref<Date>(new Date())
@@ -23,7 +26,12 @@ let formattedTime = computed(() => {
 let formattedDate = computed(() => {
     const month = currentDate.value.getMonth() + 1
     const day = currentDate.value.getDate()
-    return `${month}月${day}日`
+    if (locale.value === 'zh') {
+        return `${month}月${day}日`
+    }
+    else {
+        return `${month}/${day}`
+    }
 })
 // 更新当前时间
 function updateCurrentDate() {

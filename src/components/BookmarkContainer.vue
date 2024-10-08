@@ -78,12 +78,12 @@
 /// <reference types="chrome" />
 import BookmarkItem from './BookmarkItem.vue'
 import { ref, onBeforeMount, watch } from 'vue'
-import { type BookmarkInterface, type bookmarkSettingsInterface } from '@/types';
+import { type BookmarkInterface, type bookmarkSettingsInterface } from '@/types'
 import { useBookmarkContainerStore } from '@/store/bookmarkContainer'
 import debounce from 'lodash/debounce'
 
-import { useI18n } from 'vue-i18n';
-const { t } = useI18n();
+import { useI18n } from 'vue-i18n'
+const { t } = useI18n()
 
 defineOptions({
     name: "BookmarkContainers",
@@ -117,14 +117,14 @@ function howToUseBackgroundIcon() {
 }
 // 若本地上传本地图标，转为base64格式放入图片地址区
 function localBackgroundIconChange(event: any) {
-    const file = event.target.files[0];
+    const file = event.target.files[0]
     if (file) {
-        const reader = new FileReader();
+        const reader = new FileReader()
         reader.onload = (e) => {
             if (e && e.target && e.target.result && typeof e.target.result === 'string')
-                backgroundIconTemp.value = e.target.result;
-        };
-        reader.readAsDataURL(file);
+                backgroundIconTemp.value = e.target.result
+        }
+        reader.readAsDataURL(file)
     }
 }
 
@@ -142,7 +142,6 @@ function addBookmark() {
     bookmarkContainerStore.bookmarkSettings.bookmarkList.push(newBookmark)
     if (window.environment === 'extension') {
         chrome.storage.local.set({ 'bookmarkSettings': JSON.stringify(bookmarkContainerStore.bookmarkSettings) })
-        console.log(bookmarkContainerStore.bookmarkSettings.bookmarkList)
     }
     else {
         localStorage.setItem('bookmarkSettings', JSON.stringify(bookmarkContainerStore.bookmarkSettings))

@@ -33,3 +33,4 @@ coverage
 /node_modules
 */newtab
 /.vscode
+*.zip

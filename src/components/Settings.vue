@@ -16,7 +16,7 @@
         </div>
     </Teleport>
     <Teleport to="body">
-        <div class="modal" v-show="showModal">
+        <div class="modal" v-if="showModal">
             <div class="modal-overlay" @click="saveAndHideModal">
                 <div class="modal-content" @click.stop>
                     <nav>
@@ -40,10 +40,11 @@
                             </header>
                             <main>
                                 <form ref="searchEngineForm">
-                                    <label>{{ $t('settings.searchEnginePage.openInNewTab') }}<input type="checkbox"
+                                    <label>{{ $t('settings.searchEnginePage.openInNewTab') }}&ensp;&ensp;<input
+                                            type="checkbox"
                                             v-model="searchEngineContainerStore.searchEngineSettings.openInNewTab" /></label>
                                     <br />
-                                    <label>{{ $t('settings.searchEnginePage.gridColumnCount') }}&ensp;<input
+                                    <label>{{ $t('settings.searchEnginePage.gridColumnCount') }}&ensp;&ensp;<input
                                             type="number" min="1" max="4" style="width: 30px;"
                                             v-model="searchEngineContainerStore.searchEngineSettings.gridColumnCount" /></label>
                                     <br />
@@ -70,8 +71,8 @@
                                     <label>{{ $t('settings.bookmarkPage.openInNewTab') }}<input type="checkbox"
                                             v-model="bookmarkContainerStore.bookmarkSettings.openInNewTab"></label>
                                     <br />
-                                    <!-- <button type="button" @click="importFromBrowser">{{
-                                        $t('settings.bookmarkPage.importFromBrowser') }}</button> -->
+                                    <button type="button" @click="importFromBrowser">{{
+                                        $t('settings.bookmarkPage.importFromBrowser') }}</button>
                                 </form>
                             </main>
                             <footer>
@@ -126,7 +127,7 @@
                                     }}></button>
                                 <button ref="importSettingsFromFileField" @click="importSettingsFromFile">{{
                                     $t('settings.otherPage.importFromFile')
-                                }}</button>
+                                    }}</button>
                                 <br /> -->
                                 <p>{{ $t('settings.otherPage.welcome') }}</p>
                                 <img src="/images/qqGroup.jpg" style="width: 300px;" />
@@ -188,28 +189,29 @@ const drop = (index: number) => {
     draggingIndex.value = -1;
 }
 
-// function importFromBrowser() {
-//     if (window.environment !== 'extension') {
-//         alert('仅在扩展环境下支持导入书签')
-//         return
-//     }
-//     chrome.bookmarks.getTree(function (bookmarkTreeNodes) {
-//         // 递归遍历书签树
-//         function traverseBookmarks(nodes: any) {
-//             nodes.forEach(function (node: any) {
-//                 if (node.children) {
-//                     // 如果是文件夹，递归遍历
-//                     traverseBookmarks(node.children);
-//                 } else {
-//                     // 打印书签的标题和URL
-//                     console.log('Title:', node.title);
-//                     console.log('URL:', node.url);
-//                 }
-//             });
-//         }
-//         traverseBookmarks(bookmarkTreeNodes);
-//     });
-// }
+function importFromBrowser() {
+    if (window.environment !== 'extension') {
+        alert('仅在扩展环境下支持导入书签')
+        return
+    }
+    chrome.bookmarks.getTree(function (bookmarkTreeNodes) {
+        traverseBookmarks(bookmarkTreeNodes);
+    });
+}
+
+// 递归遍历书签树
+function traverseBookmarks(nodes: any) {
+    nodes.forEach(function (node: any) {
+        if (node.children) {
+            // 如果是文件夹，递归遍历
+            traverseBookmarks(node.children);
+        } else {
+            // 打印书签的标题和URL
+            console.log('Title:', node.title);
+            console.log('URL:', node.url);
+        }
+    });
+}
 
 // 背景图片
 function addBackground() {

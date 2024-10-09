@@ -16,7 +16,7 @@ export default {
         bookmarkPage: {
             title: "Bookmark",
             openInNewTab: "Open in New Tab",
-            importFromBrowser: "Get bookmark from Browser's bookmark manager",
+            importFromBrowser: "Import bookmark from Browser's bookmark manager",
         },
         backgroundPage: {
             title: "Background",

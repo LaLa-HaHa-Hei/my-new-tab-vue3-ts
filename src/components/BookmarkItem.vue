@@ -1,11 +1,10 @@
 <template>
     <div class="bookmark-item" @mouseenter="showEditButton = true" @mouseleave="showEditButton = false">
-        <button class="bookmark-button" @click="openUrl"
-            v-if="bookmark.backgroundText && bookmark.backgroundText.length > 0"
-            :style="{ backgroundColor: bookmark.backgroundColor }" type="button">{{
+        <button v-if="bookmark.backgroundText && bookmark.backgroundText.length > 0" class="bookmark-button"
+            @click="openUrl" :style="{ backgroundColor: bookmark.backgroundColor }" type="button">{{
                 bookmark.backgroundText
             }}</button>
-        <button class="bookmark-button" @click="openUrl" v-else
+        <button v-else class="bookmark-button" @click="openUrl"
             :style="{ backgroundImage: 'url(' + bookmark.backgroundIcon + ')' }" type="button">
         </button>
         <div class="bookmark-name">{{ props.bookmark.name }}</div>
@@ -17,7 +16,7 @@
 
     <!-- 编辑书签弹窗 -->
     <Teleport to="body">
-        <div class="modal" v-show="showModal">
+        <div class="modal" v-if="showModal">
             <div class="modal-overlay" @click="showModal = false">
                 <div class="modal-content" @click.stop>
                     <header>

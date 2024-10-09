@@ -10,7 +10,7 @@
     </div>
     <!-- 添加书签弹窗 -->
     <Teleport to="body">
-        <div class="modal" v-show="showModal">
+        <div class="modal" v-if="showModal">
             <div class="modal-overlay" @click="showModal = false">
                 <div class="modal-content" @click.stop>
                     <header>

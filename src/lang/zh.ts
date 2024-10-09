@@ -16,7 +16,7 @@ export default {
         bookmarkPage: {
             title: "书签栏",
             openInNewTab: "在新标签页中打开链接",
-            importFromBrowser: "从浏览器书签栏获取书签",
+            importFromBrowser: "从浏览器书签栏导入书签",
         },
         backgroundPage: {
             title: "背景",

@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "__MSG_extensionName__",
-	"version": "2.2.0",
+	"version": "2.3.0",
 	"description": "__MSG_extensionDescription__",
 	"default_locale": "zh",
 	"chrome_url_overrides": {
@@ -13,12 +13,10 @@
 		"32": "icons/logo32.png",
 		"48": "icons/logo48.png"
 	},
-	"optional_permissions": [
-		"bookmarks",
-		"favicon"
-	],
 	"permissions": [
 		"storage",
+		"bookmarks",
+		"tabs",
 		"clipboardWrite",
 		"clipboardRead"
 	],
@@ -27,5 +25,8 @@
 	},
 	"host_permissions": [
 		"<all_urls>"
-	]
+	],
+	"action": {
+		"default_popup": "popup.html"
+	}
 }

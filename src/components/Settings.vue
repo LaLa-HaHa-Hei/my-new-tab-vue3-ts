@@ -33,7 +33,7 @@
                         </ul>
                     </nav>
                     <div class="page-content">
-                        <!-- 页面一 -->
+                        <!-- 页面一 搜索引擎 -->
                         <div v-show="pageIndex === 0" class="page">
                             <header>
                                 <p>{{ $t('settings.searchEnginePage.title') }}</p>
@@ -53,13 +53,14 @@
                                             :key="engine.id" draggable="true" @dragstart="dragStart(index)"
                                             @dragover="allowDrop" @drop="drop(index)" class="engine-item"><input
                                                 type="checkbox" v-model="engine.used" />{{
-                                                    engine.name }}</li>
+                                                    engine.name }}
+                                        </li>
                                     </ul>
                                 </form>
                             </main>
                             <footer></footer>
                         </div>
-                        <!-- 页面二 -->
+                        <!-- 页面二 书签 -->
                         <div v-show="pageIndex === 1" class="page">
                             <header>
                                 <p>书签</p>
@@ -68,12 +69,15 @@
                                 <form ref="bookmarkForm">
                                     <label>{{ $t('settings.bookmarkPage.openInNewTab') }}<input type="checkbox"
                                             v-model="bookmarkContainerStore.bookmarkSettings.openInNewTab"></label>
+                                    <br />
+                                    <!-- <button type="button" @click="importFromBrowser">{{
+                                        $t('settings.bookmarkPage.importFromBrowser') }}</button> -->
                                 </form>
                             </main>
                             <footer>
                             </footer>
                         </div>
-                        <!-- 页面三 -->
+                        <!-- 页面三 背景 -->
                         <div v-show="pageIndex === 2" class="page">
                             <header>
                                 <p>{{ $t('settings.backgroundPage.title') }}</p>
@@ -108,7 +112,7 @@
                             </main>
                             <footer></footer>
                         </div>
-                        <!-- 页面四 -->
+                        <!-- 页面四 其他 -->
                         <div v-show="pageIndex === 3" class="page">
                             <header>
                                 <p>{{ $t('settings.otherPage.title') }}</p>
@@ -118,6 +122,12 @@
                                     }}</button>&ensp;&ensp;
                                 <button @click="importSettings">{{ $t('settings.otherPage.import') }}</button>
                                 <br />
+                                <!-- <button @click="exportSettingsAsFile">{{ $t('settings.otherPage.exportAsFile')
+                                    }}></button>
+                                <button ref="importSettingsFromFileField" @click="importSettingsFromFile">{{
+                                    $t('settings.otherPage.importFromFile')
+                                }}</button>
+                                <br /> -->
                                 <p>{{ $t('settings.otherPage.welcome') }}</p>
                                 <img src="/images/qqGroup.jpg" style="width: 300px;" />
                             </main>
@@ -146,6 +156,7 @@ defineOptions({
 const bookmarkContainerStore = useBookmarkContainerStore()
 const searchEngineContainerStore = useSearchEngineContainerStore()
 const backgroundStore = useBackgroundStore()
+const importSettingsFromFileField = ref()
 
 const showModal = ref<boolean>(false)
 const pageIndex = ref<number>(0)
@@ -176,6 +187,29 @@ const drop = (index: number) => {
     searchEngineContainerStore.searchEngineSettings.searchEngineList.splice(index, 0, draggedItem);
     draggingIndex.value = -1;
 }
+
+// function importFromBrowser() {
+//     if (window.environment !== 'extension') {
+//         alert('仅在扩展环境下支持导入书签')
+//         return
+//     }
+//     chrome.bookmarks.getTree(function (bookmarkTreeNodes) {
+//         // 递归遍历书签树
+//         function traverseBookmarks(nodes: any) {
+//             nodes.forEach(function (node: any) {
+//                 if (node.children) {
+//                     // 如果是文件夹，递归遍历
+//                     traverseBookmarks(node.children);
+//                 } else {
+//                     // 打印书签的标题和URL
+//                     console.log('Title:', node.title);
+//                     console.log('URL:', node.url);
+//                 }
+//             });
+//         }
+//         traverseBookmarks(bookmarkTreeNodes);
+//     });
+// }
 
 // 背景图片
 function addBackground() {
@@ -256,9 +290,61 @@ async function importSettings() {
     }
 }
 
-// onBeforeMount(async () => {
-// })
+// async function exportSettingsAsFile() {
+//     const settingsStr = await navigator.clipboard.readText()
+//     const settingsObj = JSON.parse(settingsStr)
 
+//     // 创建 Blob 对象
+//     const blob = new Blob([settingsStr], { type: "text/plain" });
+
+//     // 创建一个指向该 Blob 的 URL
+//     const url = URL.createObjectURL(blob);
+
+//     // 创建一个链接元素
+//     const a = document.createElement("a");
+//     a.href = url;
+//     a.download = "settings.txt"; // 指定下载的文件名
+
+//     // 触发下载
+//     document.body.appendChild(a);
+//     a.click();
+
+//     // 清理 URL 对象
+//     URL.revokeObjectURL(url);
+//     a.remove();
+
+// }
+
+// async function importSettingsFromFile() {
+//     // 创建一个隐藏的文件输入元素
+//     importSettingsFromFileField.value.type = "file";
+//     importSettingsFromFileField.value.accept = ".txt"; // 限制选择文本文件
+
+//     // 当选择文件后读取内容
+//     importSettingsFromFileField.value.addEventListener("change", () => {
+//         const file = importSettingsFromFileField.value.files[0];
+
+//         if (!file) {
+//             return; // 如果没有选择文件，则退出
+//         }
+
+//         const reader = new FileReader();
+
+//         reader.onload = (event) => {
+//             try {
+//                 const settings = JSON.parse(event.target.result);
+//                 console.log("导入的设置:", settings);
+//                 document.getElementById("output").textContent = JSON.stringify(settings, null, 2); // 显示导入的设置
+//             } catch (error) {
+//                 alert("无法解析文件内容，请确保是有效的 JSON 格式！");
+//             }
+//         };
+//         reader.readAsText(file); // 以文本形式读取文件
+//     });
+
+//     // 手动触发文件输入的点击事件
+//     fileInput.click();
+// }
 </script>
 
 <style scoped>

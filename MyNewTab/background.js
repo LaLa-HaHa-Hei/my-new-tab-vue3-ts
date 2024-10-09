@@ -15,8 +15,36 @@ chrome.runtime.onInstalled.addListener(() => {
     setDefaultBackgroundSettings()
     setDefaultBookmarkSettings()
     setDefaultSearchEngineSettings()
+    chrome.storage.local.set({ 'singleNewTabEnabled': false })
 })
 
+// 监听标签页创建事件，决定是否只保留一个新标签页
+chrome.tabs.onCreated.addListener(async function (tab) {
+    const singleNewTabEnabled = (await chrome.storage.local.get('singleNewTabEnabled')).singleNewTabEnabled === true ? true : false
+    if (singleNewTabEnabled === false) {
+        return
+    }
+    const newTabUrl1 = "chrome://newtab/";
+    const newTabUrl2 = "edge://newtab/";
+    if (tab.pendingUrl === newTabUrl1 || tab.pendingUrl === newTabUrl2) {
+        chrome.tabs.query({ currentWindow: true }, function (tabs) {
+            let newTabExists = null;
+
+            // 遍历所有标签页，找到已经存在的新标签页
+            for (let i = 0; i < tabs.length; i++) {
+                if (tabs[i].url === newTabUrl1 || tabs[i].url === newTabUrl2) {
+                    newTabExists = tabs[i];
+                    break;
+                }
+            }
+            // 如果有新标签页，关闭当前新标签页
+            if (newTabExists) {
+                chrome.tabs.update(newTabExists.id, { active: true });
+                chrome.tabs.remove(tab.id); // 关闭当前标签页
+            }
+        });
+    }
+});
 
 function setDefaultBackgroundSettings() {
     backgroundSettings = {
@@ -44,7 +72,6 @@ function setDefaultBackgroundSettings() {
         }
     })
 }
-
 function setDefaultBookmarkSettings() {
     bookmarkSettings = {
         openInNewTab: true,
@@ -93,7 +120,6 @@ function setDefaultBookmarkSettings() {
         }
     })
 }
-
 function setDefaultSearchEngineSettings() {
     searchEngineSettings = {
         openInNewTab: true, // 是否在新标签页中打开搜索

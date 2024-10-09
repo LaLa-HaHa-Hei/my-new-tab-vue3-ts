@@ -16,6 +16,7 @@ export default {
         bookmarkPage: {
             title: "书签栏",
             openInNewTab: "在新标签页中打开链接",
+            importFromBrowser: "从浏览器书签栏获取书签",
         },
         backgroundPage: {
             title: "背景",
@@ -31,6 +32,8 @@ export default {
             title: "其他",
             export: "导出配置到剪切板",
             import: "从剪切板导入配置",
+            exportAsFile: "导出到文件",
+            importFromFine: "从文件导入",
             welcome: "欢迎加入QQ群一起讨论~",
             exportSuccess: "设置已导出到剪切板",
             exportFailed: "导出失败",

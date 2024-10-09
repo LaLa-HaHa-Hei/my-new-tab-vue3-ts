@@ -16,6 +16,7 @@ export default {
         bookmarkPage: {
             title: "Bookmark",
             openInNewTab: "Open in New Tab",
+            importFromBrowser: "Get bookmark from Browser's bookmark manager",
         },
         backgroundPage: {
             title: "Background",
@@ -31,6 +32,8 @@ export default {
             title: "Others",
             export: "Export configuration to clipboard",
             import: "Import configuration from clipboard",
+            exportAsFile: "Export configuration to file",
+            importFromFine: "Import configuration from file",
             welcome: "If you have QQ, welcome to join the group discussion",
             exportSuccess: "Configuration has been exported to clipboard",
             exportFailed: "Failed to export configuration to clipboard",

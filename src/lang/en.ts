@@ -39,24 +39,24 @@ export default {
         }
     },
     bookmark: {
-        addBookmark: {
-            title: "add bookmark",
-            name: "website name",
-            url: "website url ",
-            icon: "icon",
-            inputPlaceholder: "URL or base64 image",
-            readMe: "read me",
-            usage: "After entering the website address, it will automatically guess the website icon, but it is not recommended to use it directly! Directly using a website address as an icon will result in requesting the icon again every time the page is opened, which is very inefficient! Suggest right clicking on the image, clicking 'Save As', downloading the icon, and then clicking 'Select File' to select the downloaded icon. After displaying it normally and adding a bookmark, you can delete the downloaded icon",
-            preview: "preview",
-            or: "or",
-            color: "background color",
-            text: "background text",
-            tip: "If background text is entered, the background image will become invalid",
-            add: "add",
-            cancel: "cancel"
-        },
-        deleteBookmark: {
-            confirm: "Are you sure to delete this bookmark?",
-        }
+        addBookmarkTitle: "add bookmark",
+        name: "website name",
+        url: "website url ",
+        icon: "icon",
+        inputPlaceholder: "URL or base64 image",
+        readMe: "read me",
+        usage: "After entering the website address, it will automatically guess the website icon, but it is not recommended to use it directly! Directly using a website address as an icon will result in requesting the icon again every time the page is opened, which is very inefficient! Suggest right clicking on the image, clicking 'Save As', downloading the icon, and then clicking 'Select File' to select the downloaded icon. After displaying it normally and adding a bookmark, you can delete the downloaded icon",
+        preview: "preview",
+        or: "or",
+        color: "background color",
+        text: "background text",
+        tip: "If background text is entered, the background image will become invalid",
+        add: "add",
+        cancel: "cancel",
+        editBookmarkTitle: "edit bookmark",
+        delete: "delete",
+        save: "save",
+        confirm: "Are you sure to delete this bookmark?",
+
     }
 }

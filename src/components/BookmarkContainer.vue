@@ -5,7 +5,7 @@
 
         <div class="add-bookmark-item">
             <button @click="showModal = true" type="button"></button>
-            <div class="bookmark-name">{{ $t('bookmark.addBookmark.add') }}</div>
+            <div class="bookmark-name">{{ $t('bookmark.add') }}</div>
         </div>
     </div>
     <!-- 添加书签弹窗 -->
@@ -14,59 +14,58 @@
             <div class="modal-overlay" @click="showModal = false">
                 <div class="modal-content" @click.stop>
                     <header>
-                        {{ $t('bookmark.addBookmark.title') }}
+                        {{ $t('bookmark.addBookmarkTitle') }}
                     </header>
                     <main>
                         <form ref="formField">
-                            <label>{{ $t('bookmark.addBookmark.name') }}&ensp;&ensp;<input type="text" name="name"
+                            <label>{{ $t('bookmark.name') }}&ensp;&ensp;<input type="text" name="name"
                                     placflexeholder=" 图标下方文字"></label>
                             <br />
-                            <label>{{ $t('bookmark.addBookmark.url') }}&ensp;&ensp;<input type="text" name="url"
+                            <label>{{ $t('bookmark.url') }}&ensp;&ensp;<input type="text" name="url"
                                     v-model="urlTemp"></label>
                             <br />
 
                             <div style="display: flex; flex-direction: row; gap: 10px;">
                                 <!-- 图标 -->
                                 <div style="flex: 1; border: 1px solid #ccc; padding: 10px;">
-                                    <label>{{ $t('bookmark.addBookmark.icon') }}&ensp;
+                                    <label>{{ $t('bookmark.icon') }}&ensp;
                                         <input type=" text" name="backgroundIcon"
-                                            :placeholder="$t('bookmark.addBookmark.inputPlaceholder')"
+                                            :placeholder="$t('bookmark.inputPlaceholder')"
                                             v-model="backgroundIconTemp"></label>
                                     <br />
                                     <button @click.prevent="howToUseBackgroundIcon" style="color: red;">{{
-                                        $t('bookmark.addBookmark.readMe') }}</button>
+                                        $t('bookmark.readMe') }}</button>
                                     &ensp;
                                     <input type="file" accept="image/*" @change="localBackgroundIconChange"
                                         style="width: 150px;" title="从本地上传" />
                                     <br />
-                                    {{ $t('bookmark.addBookmark.preview') }}&ensp;&ensp;
+                                    {{ $t('bookmark.preview') }}&ensp;&ensp;
                                     <img :src="backgroundIconTemp" @error="imgError"
                                         style="width: 64px; height: 64px; border-radius: 15px; box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);">
                                 </div>
                                 <div style="display: flex; align-items: center;">
-                                    <h3> {{ $t('bookmark.addBookmark.or') }} </h3>
+                                    <h3> {{ $t('bookmark.or') }} </h3>
                                 </div>
                                 <!-- 纯色 -->
                                 <div style="flex: 1; border: 1px solid #ccc; padding: 10px;">
-                                    <label>{{ $t('bookmark.addBookmark.color') }}&ensp;<input type="color"
-                                            name="backgroundColor" value="#23A7F2"
-                                            style="flex:none; width: 30px;"></label>
+                                    <label>{{ $t('bookmark.color') }}&ensp;<input type="color" name="backgroundColor"
+                                            value="#23A7F2" style="flex:none; width: 30px;"></label>
                                     <br />
-                                    <label>{{ $t('bookmark.addBookmark.text') }}&ensp;<input type="text"
-                                            name="backgroundText" placeholder=" 显示在背景色上的文字"></label>
+                                    <label>{{ $t('bookmark.text') }}&ensp;<input type="text" name="backgroundText"
+                                            placeholder=" 显示在背景色上的文字"></label>
                                     <br />
-                                    <span style="color: red;">{{ $t('bookmark.addBookmark.tip') }}</span>
+                                    <span style="color: red;">{{ $t('bookmark.tip') }}</span>
                                 </div>
                             </div>
                         </form>
                     </main>
                     <footer>
                         <button class="modal-add-button" @click="addBookmark">{{
-                            $t('bookmark.addBookmark.add') }}</button>
+                            $t('bookmark.add') }}</button>
                         &ensp;&ensp;
                         <button class="modal-cancel-button"
                             @click="showModal = false; formField.reset(); urlTemp = ''; backgroundIconTemp = ''">{{
-                                $t('bookmark.addBookmark.cancel') }}</button>
+                                $t('bookmark.cancel') }}</button>
                     </footer>
                 </div>
             </div>
@@ -99,6 +98,9 @@ const backgroundIconTemp = ref('')
 // 输入网址后，猜测图片url
 watch(urlTemp, debounce((newVal) => {
     try {
+        //如果是data:开头的图片，则不进行处理
+        if (backgroundIconTemp.value.startsWith('data:'))
+            return
         const parsedUrl = new URL(newVal)
         backgroundIconTemp.value = `${parsedUrl.origin}/favicon.ico`
     }
@@ -113,7 +115,7 @@ function imgError(event: any) {
 }
 // 使用帮助
 function howToUseBackgroundIcon() {
-    alert(t('bookmark.addBookmark.usage'))
+    alert(t('bookmark.usage'))
 }
 // 若本地上传本地图标，转为base64格式放入图片地址区
 function localBackgroundIconChange(event: any) {

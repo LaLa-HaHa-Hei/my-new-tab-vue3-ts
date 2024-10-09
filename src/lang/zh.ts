@@ -39,24 +39,23 @@ export default {
         }
     },
     bookmark: {
-        addBookmark: {
-            title: "添加书签",
-            name: "网站名称",
-            url: "网站链接",
-            icon: "背景图",
-            inputPlaceholder: "网址或base64图片",
-            readMe: "用前必看",
-            usage: "输入网址后会自动猜测网站图标，但是不建议直接使用！\n直接使用网址作为图标将导致每次打开页面都会重新请求图标，效率很低！\n建议右键图片，点 “另存为”，下载图标后点击 “选择文件”选择下载的图标，正常显示并添加书签后即可删除下载的图标",
-            preview: "预览",
-            or: "或",
-            color: "背景色",
-            text: "背景文本",
-            tip: "若输入背景文本, 背景图将失效",
-            add: "添加",
-            cancel: "取消"
-        },
-        deleteBookmark: {
-            confirm: "确认删除该书签吗？",
-        }
+        addBookmarkTitle: "添加书签",
+        name: "网站名称",
+        url: "网站链接",
+        icon: "背景图",
+        inputPlaceholder: "网址或base64图片",
+        readMe: "用前必看",
+        usage: "输入网址后会自动猜测网站图标，但是不建议直接使用！\n直接使用网址作为图标将导致每次打开页面都会重新请求图标，效率很低！\n建议右键图片，点 “另存为”，下载图标后点击 “选择文件”选择下载的图标，正常显示并添加书签后即可删除下载的图标",
+        preview: "预览",
+        or: "或",
+        color: "背景色",
+        text: "背景文本",
+        tip: "若输入背景文本, 背景图将失效",
+        add: "添加",
+        cancel: "取消",
+        editBookmarkTitle: "编辑书签",
+        delete: "删除",
+        save: "保存",
+        confirm: "确认删除该书签吗？",
     }
 }

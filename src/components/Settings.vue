@@ -10,13 +10,13 @@
                 </select>
             </label>
             &ensp;&ensp;
-            <button class="settings-button" @click="showModal = true; pageIndex = 0" type="button">
+            <button class="settings-button" @click="showModal" type="button">
                 <img src="/images/setting.svg" alt="设置" />
             </button>
         </div>
     </Teleport>
     <Teleport to="body">
-        <div class="modal" v-if="showModal">
+        <div class="modal" v-if="modalVisible">
             <div class="modal-overlay" @click="saveAndHideModal">
                 <div class="modal-content" @click.stop>
                     <nav>
@@ -71,8 +71,7 @@
                                     <label>{{ $t('settings.bookmarkPage.openInNewTab') }}<input type="checkbox"
                                             v-model="bookmarkContainerStore.bookmarkSettings.openInNewTab"></label>
                                     <br />
-                                    <button type="button" @click="importFromBrowser">{{
-                                        $t('settings.bookmarkPage.importFromBrowser') }}</button>
+                                    <!-- <DisplayBookmarkObj :bookmarkObj="bookmarkFromBrowser" /> -->
                                 </form>
                             </main>
                             <footer>
@@ -142,12 +141,13 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onBeforeMount } from 'vue'
+import { ref, watch } from 'vue'
 import { useBookmarkContainerStore } from '@/store/bookmarkContainer'
 import { useSearchEngineContainerStore } from '@/store/searchEngineContainer'
 import { useBackgroundStore } from '@/store/background'
 
 import { useI18n } from 'vue-i18n'
+// import DisplayBookmarkObj from './DisplayBookmarkObj.vue'
 const { t, locale } = useI18n()
 
 defineOptions({
@@ -157,10 +157,21 @@ defineOptions({
 const bookmarkContainerStore = useBookmarkContainerStore()
 const searchEngineContainerStore = useSearchEngineContainerStore()
 const backgroundStore = useBackgroundStore()
-const importSettingsFromFileField = ref()
+const bookmarkFromBrowser = ref()
+// const importSettingsFromFileField = ref()
 
-const showModal = ref<boolean>(false)
+const modalVisible = ref<boolean>(false)
 const pageIndex = ref<number>(0)
+
+function showModal() {
+    pageIndex.value = 0;
+    bookmarkFromBrowser.value = {}
+    modalVisible.value = true
+}
+function hideModal() {
+    modalVisible.value = false
+    bookmarkFromBrowser.value = {}
+}
 
 watch(locale, val => {
     if (window.environment === 'extension') {
@@ -189,30 +200,6 @@ const drop = (index: number) => {
     draggingIndex.value = -1;
 }
 
-function importFromBrowser() {
-    if (window.environment !== 'extension') {
-        alert('仅在扩展环境下支持导入书签')
-        return
-    }
-    chrome.bookmarks.getTree(function (bookmarkTreeNodes) {
-        traverseBookmarks(bookmarkTreeNodes);
-    });
-}
-
-// 递归遍历书签树
-function traverseBookmarks(nodes: any) {
-    nodes.forEach(function (node: any) {
-        if (node.children) {
-            // 如果是文件夹，递归遍历
-            traverseBookmarks(node.children);
-        } else {
-            // 打印书签的标题和URL
-            console.log('Title:', node.title);
-            console.log('URL:', node.url);
-        }
-    });
-}
-
 // 背景图片
 function addBackground() {
     const imgPath = prompt('请输入背景图片网址')
@@ -237,7 +224,6 @@ function howToUseBackground() {
 }
 // 保存并隐藏模态框
 function saveAndHideModal() {
-    showModal.value = false
     if (window.environment === 'extension') {
         chrome.storage.local.set({ 'bookmarkSettings': JSON.stringify(bookmarkContainerStore.bookmarkSettings) })
         chrome.storage.local.set({ 'searchEngineSettings': JSON.stringify(searchEngineContainerStore.searchEngineSettings) })
@@ -248,6 +234,7 @@ function saveAndHideModal() {
         localStorage.setItem('searchEngineSettings', JSON.stringify(searchEngineContainerStore.searchEngineSettings))
         localStorage.setItem('backgroundSettings', JSON.stringify(backgroundStore.backgroundSettings))
     }
+    hideModal()
 }
 
 // 导出设置

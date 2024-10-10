@@ -9,15 +9,15 @@
         </button>
         <div class="bookmark-name">{{ props.bookmark.name }}</div>
 
-        <button v-show="showEditButton" class="edit-button" @click="showModalHandler" type="button">
+        <button v-show="showEditButton" class="edit-button" @click="showModal" type="button">
             <img src="/images/edit.svg" />
         </button>
     </div>
 
     <!-- 编辑书签弹窗 -->
     <Teleport to="body">
-        <div class="modal" v-if="showModal">
-            <div class="modal-overlay" @click="showModal = false">
+        <div class="modal" v-if="modalVisible">
+            <div class="modal-overlay" @click="modalVisible = false">
                 <div class="modal-content" @click.stop>
                     <header>
                         {{ $t('bookmark.editBookmarkTitle') }}
@@ -72,7 +72,7 @@
                             $t('bookmark.save') }}</button>
                         &ensp;&ensp;
                         <button class="modal-cancel-button"
-                            @click="showModal = false; formField.reset(); urlTemp = ''; backgroundIconTemp = ''">{{
+                            @click="modalVisible = false; formField.reset(); urlTemp = ''; backgroundIconTemp = ''">{{
                                 $t('bookmark.cancel') }}</button>
                     </footer>
                 </div>
@@ -99,7 +99,7 @@ const { t } = useI18n();
 
 const bookmarkContainerStore = useBookmarkContainerStore()
 const showEditButton = ref(false)
-const showModal = ref(false)
+const modalVisible = ref(false)
 const urlTemp = ref(props.bookmark.url)
 const backgroundIconTemp = ref(props.bookmark.backgroundIcon)
 const formField = ref()
@@ -144,7 +144,7 @@ function localBackgroundIconChange(event: any) {
 }
 
 function saveBookmark() {
-    showModal.value = false
+    modalVisible.value = false
     const formData = new FormData(formField.value)
     const newBookmark: BookmarkInterface = {
         id: `${Date.now()}`,
@@ -183,8 +183,8 @@ function deleteBookmark() {
     }
 }
 
-function showModalHandler() {
-    showModal.value = true
+function showModal() {
+    modalVisible.value = true
     urlTemp.value = props.bookmark.url
     backgroundIconTemp.value = props.bookmark.backgroundIcon
 }

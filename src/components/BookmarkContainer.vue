@@ -4,14 +4,14 @@
             :openInNewTab="bookmarkContainerStore.bookmarkSettings.openInNewTab" :bookmark="bookmark" />
 
         <div class="add-bookmark-item">
-            <button @click="showModal = true" type="button"></button>
+            <button @click="modalVisible = true" type="button"></button>
             <div class="bookmark-name">{{ $t('bookmark.add') }}</div>
         </div>
     </div>
     <!-- 添加书签弹窗 -->
     <Teleport to="body">
-        <div class="modal" v-if="showModal">
-            <div class="modal-overlay" @click="showModal = false">
+        <div class="modal" v-if="modalVisible">
+            <div class="modal-overlay" @click="modalVisible = false">
                 <div class="modal-content" @click.stop>
                     <header>
                         {{ $t('bookmark.addBookmarkTitle') }}
@@ -64,7 +64,7 @@
                             $t('bookmark.add') }}</button>
                         &ensp;&ensp;
                         <button class="modal-cancel-button"
-                            @click="showModal = false; formField.reset(); urlTemp = ''; backgroundIconTemp = ''">{{
+                            @click="modalVisible = false; formField.reset(); urlTemp = ''; backgroundIconTemp = ''">{{
                                 $t('bookmark.cancel') }}</button>
                     </footer>
                 </div>
@@ -90,7 +90,7 @@ defineOptions({
 
 const bookmarkContainerStore = useBookmarkContainerStore()
 
-const showModal = ref(false)
+const modalVisible = ref(false)
 const formField = ref()
 
 const urlTemp = ref('')
@@ -131,7 +131,7 @@ function localBackgroundIconChange(event: any) {
 }
 
 function addBookmark() {
-    showModal.value = false
+    modalVisible.value = false
     const formData = new FormData(formField.value)
     const newBookmark: BookmarkInterface = {
         id: `${Date.now()}`,

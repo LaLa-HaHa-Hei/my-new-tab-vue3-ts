@@ -29,9 +29,8 @@ chrome.tabs.onCreated.addListener(async function (tab) {
     if (tab.pendingUrl === newTabUrl1 || tab.pendingUrl === newTabUrl2) {
         chrome.tabs.query({ currentWindow: true }, function (tabs) {
             let newTabExists = null;
-
             // 遍历所有标签页，找到已经存在的新标签页
-            for (let i = 0; i < tabs.length; i++) {
+            for (let i = 0; i < tabs.length - 1; i++) {
                 if (tabs[i].url === newTabUrl1 || tabs[i].url === newTabUrl2) {
                     newTabExists = tabs[i];
                     break;

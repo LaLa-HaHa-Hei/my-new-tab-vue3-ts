@@ -8,6 +8,9 @@
     <div class="SearchEngineContainer">
       <SearchEngineContainer />
     </div>
+    <div class="Memo">
+      <Memo />
+    </div>
     <div class="BookmarkContainer">
       <BookmarkContainer />
     </div>
@@ -23,6 +26,7 @@ defineOptions({
 import Background from './components/Background.vue'
 import Clock from './components/Clock.vue'
 import SearchEngineContainer from './components/SearchEngineContainer.vue'
+import Memo from './components/Memo.vue'
 import BookmarkContainer from './components/BookmarkContainer.vue'
 import Settings from './components/Settings.vue'
 
@@ -44,8 +48,12 @@ main {
   margin-top: 20px;
 }
 
+.Memo {
+  margin: 10px 15% 10px 15%;
+}
+
 .BookmarkContainer {
-  margin-top: 50px;
+  margin-top: 20px;
   margin-bottom: 20px;
   flex: 1;
   overflow: hidden;

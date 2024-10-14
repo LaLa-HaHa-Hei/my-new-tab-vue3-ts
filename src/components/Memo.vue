@@ -20,13 +20,7 @@ watch(memo, debounce(() => {
 
 onBeforeMount(async () => {
     if (window.environment === 'extension') {
-        const { text } = await chrome.storage.local.get('memo')
-        if (text.momo) {
-            memo.value = text.memo
-        }
-        else {
-            memo.value = ''
-        }
+        memo.value = (await chrome.storage.local.get('memo')).memo
     }
     else {
         const text = localStorage.getItem('memo')

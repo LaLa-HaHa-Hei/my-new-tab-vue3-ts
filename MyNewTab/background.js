@@ -16,6 +16,7 @@ chrome.runtime.onInstalled.addListener(() => {
     setDefaultBookmarkSettings()
     setDefaultSearchEngineSettings()
     chrome.storage.local.set({ 'singleNewTabEnabled': false })
+    chrome.storage.local.set({ 'memo': '' })
 })
 
 // 监听标签页创建事件，决定是否只保留一个新标签页

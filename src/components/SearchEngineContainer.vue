@@ -1,9 +1,11 @@
 <template>
     <div class="search-engine-container"
         :style="{ gridTemplateColumns: `repeat(${searchEngineContainerStore.searchEngineSettings.gridColumnCount}, 1fr)` }">
-        <SearchEngineItem v-for="searchEngine in searchEngineContainerStore.searchEngineSettings.searchEngineList"
-            :key="searchEngine.id" :openInNewTab="searchEngineContainerStore.searchEngineSettings.openInNewTab"
-            :searchEngine="searchEngine" :getSearchSuggestions="bingSearchSuggestions" />
+        <template v-for="searchEngine in searchEngineContainerStore.searchEngineSettings.searchEngineList">
+            <SearchEngineItem v-if="searchEngine.used" :key="searchEngine.id"
+                :openInNewTab="searchEngineContainerStore.searchEngineSettings.openInNewTab"
+                :searchEngine="searchEngine" :getSearchSuggestions="bingSearchSuggestions" />
+        </template>
     </div>
 </template>
 

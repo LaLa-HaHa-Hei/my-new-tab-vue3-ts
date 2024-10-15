@@ -3,36 +3,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onBeforeMount } from 'vue';
+import { ref, watch, onBeforeMount, onBeforeUnmount } from 'vue';
 import debounce from 'lodash/debounce'
 
 const memo = ref('');
 
-
-watch(memo, debounce(() => {
+const saveMemoDebounced = debounce(() => {
     if (window.environment === 'extension') {
         chrome.storage.local.set({ 'memo': memo.value })
     }
     else {
-        localStorage.setItem('memo', memo.value)
+        localStorage.setItem('memo', memo.value);
     }
-}, 1000 * 5))
+}, 1000 * 5)
+
+
+watch(() => memo.value, saveMemoDebounced)
 
 onBeforeMount(async () => {
     if (window.environment === 'extension') {
-        memo.value = (await chrome.storage.local.get('memo')).memo
+        const result = await chrome.storage.local.get('memo');
+        memo.value = result.memo || '';
     }
     else {
         const text = localStorage.getItem('memo')
-        if (text) {
-            memo.value = text
-        }
-        else {
-            localStorage.setItem('memo', '')
-        }
+        memo.value = text || '';
     }
 })
-
+onBeforeUnmount(() => {
+    saveMemoDebounced.flush()
+})
+window.addEventListener('beforeunload', () => {
+    saveMemoDebounced.flush()
+});
 </script>
 
 <style scoped>

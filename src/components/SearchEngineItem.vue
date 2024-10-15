@@ -1,5 +1,5 @@
 <template>
-    <div v-if="props.searchEngine.used" class="search-engine-item">
+    <div class="search-engine-item">
         <div class="search-engine-input-box" :class="inputBoxStyleClass">
             <input type="text" ref="inputField" :placeholder="props.searchEngine.name" @keydown.enter="search"
                 v-model="searchText" @mouseenter="handleMouseEnterInput" @focusout="handleFocusOutInput"
